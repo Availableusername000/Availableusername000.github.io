@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Резюме создателя</title>
+    <style>
+      body {
+        background-color: #f5f5f5;
+      }
+      h1 {
+        color: red;
+      }
+      p:nth-of-type(odd) {
+        color: green;
+      }
+      p:nth-of-type(even) {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Резюме</h1>
+    <script>
+      let name = prompt("Введите свое имя:");
+      let surname = prompt("Введите свою фамилию:");
+      let middleName = prompt("Введите свое отчество:");
+      let age = prompt("Введите свой возраст:");
+      document.write(`<p>Имя: ${name}</p>`);
+      document.write(`<p>Фамилия: ${surname}</p>`);
+      document.write(`<p>Отчество: ${middleName}</p>`);
+      document.write(`<p>Возраст: ${age} лет</p>`);
+    </script>
+  </body>
+</html>
+<style>
+ h1 {
+ color: blue;
+ background-color: yellow;
+ border: 1px solid black;
+}
+p {
+ color: red;
+10
+}
+</style>
