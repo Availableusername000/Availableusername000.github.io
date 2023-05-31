@@ -9,7 +9,7 @@
         box-shadow: 5px 5px 10px #333; /* тень */
       }
       h1 {
-        color: red;
+        color: teal;
       }
       p:nth-of-type(odd) {
         color: green;
@@ -38,8 +38,8 @@
 </html>
 <style>
  h1 {
- color: yellow;
- background-color: teal;
+ color: blue;
+ background-color: yellow;
  border: 1px solid black;
 }
 p {
@@ -47,3 +47,99 @@ p {
 10
 }
 </style>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>My title</title>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body>
+  <div class="main">
+    <h2>JavaScript Confirm Box</h2>
+    <button class="btn" onclick="myFunction()">Try it</button>
+    <ul id="demo">
+
+    </ul>
+  </div>
+  <script>
+    function myFunction() {
+      (async() => {
+        let response = await fetch('https://kav-api.kovalev.team/servodrive/lastActualData?servoDriveId=1');
+        let el = document.getElementById('demo')
+        el.innerHTML = ""
+        let text = await response.text(); // прочитать тело ответа как текст
+        for (const [key, value] of Object.entries(JSON.parse(text)[0])) {
+          const newEl = document.createElement("li")
+          newEl.appendChild(document.createTextNode(`${key}: ${value}`))
+          el.appendChild(newEl)
+        }
+      })()
+    }
+
+    setInterval(myFunction, 2000);
+  </script>
+
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Спидометр for actVelocity</title>
+    <style>
+      .meter {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 10px solid #ccc;
+        position: relative;
+      }
+      .needle {
+        width: 5px;
+        height: 100px;
+        background-color: #f00;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(0deg);
+        transform-origin: bottom center;
+        transition: transform 0.5s ease;
+      }
+      .reading {
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="meter">
+      <div class="needle"></div>
+      <div class="reading">0</div>
+    </div>
+    <script>
+      function updateSpeedometer() {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://kav-api.kovalev.team/servodrive/lastActualData?servoDriveId=1");
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            let data = JSON.parse(xhr.responseText);
+            let speed = data.speed;
+            document.querySelector(".needle").style.transform = `translate(-50%, -50%) rotate(${(speed/220)*180-90}deg)`;
+            document.querySelector(".reading").textContent = Math.round(speed);
+          }
+        };
+        xhr.send();
+      }
+      setInterval(updateSpeedometer, 1000);
+    </script>
+  </body>
+</html>
